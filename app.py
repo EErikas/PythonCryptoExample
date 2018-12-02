@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from Crypto_Examples.DES import run_des
 from Crypto_Examples.AES import AES
+from Crypto_Examples.RSA import RSA
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -49,7 +50,7 @@ def des_page():
         if message or key is not None:
 
             if not is_hex(key):
-                return render_template('des_page.html', error_no='2')
+                return render_template('page_des.html', error_no='2')
             else:
                 errors = list()
                 if not is_hex(message):
@@ -64,7 +65,7 @@ def des_page():
                 print(action)
                 if action == 'encrypt':
                     encryption_values = run_des(message, key, action)
-                    return render_template('des_page.html',
+                    return render_template('page_des.html',
                                            print_action=action,
                                            message=message,
                                            key=key,
@@ -72,7 +73,7 @@ def des_page():
                                            errors=errors)
                 elif action == 'decrypt':
                     decryption_values = run_des(message, key, action)
-                    return render_template('des_page.html',
+                    return render_template('page_des.html',
                                            print_action=action,
                                            message=message,
                                            key=key,
@@ -81,7 +82,7 @@ def des_page():
                 else:
                     encryption_values = run_des(message, key, 'encrypt')
                     decryption_values = run_des(encryption_values['Cipher'], key, 'decrypt')
-                    return render_template('des_page.html',
+                    return render_template('page_des.html',
                                            print_action='both',
                                            message=message,
                                            key=key,
@@ -89,9 +90,9 @@ def des_page():
                                            decryption_values=decryption_values,
                                            errors=errors)
         else:
-            return render_template('des_page.html', error_no='1')
+            return render_template('page_des.html', error_no='1')
     else:
-        return render_template('des_page.html')
+        return render_template('page_des.html')
 
 
 # Display data from AES calculations:
@@ -109,19 +110,55 @@ def aes_page():
         if message or key is not None:
 
             if not is_hex(key):
-                return render_template('aes_page.html', error_no='2')
+                return render_template('page_aes.html', error_no='2')
             elif not is_hex(message):
-                return render_template('aes_page.html', error_no='3')
+                return render_template('page_aes.html', error_no='3')
             else:
                 message = fixed_len_hex(message)
                 key = fixed_len_hex(key)
                 aes = AES()
                 aes_data = aes.do_rounds(message=get_hex_array(message), key=get_hex_array(key))
-                return render_template('aes_page.html', message=message, key=key, data=aes_data)
+                return render_template('page_aes.html', message=message, key=key, data=aes_data)
         else:
-            return render_template('aes_page.html', error_no='1')
+            return render_template('page_aes.html', error_no='1')
     else:
-        return render_template('aes_page.html')
+        return render_template('page_aes.html')
+
+
+# Display data from DES calculations:
+@app.route('/rsa/', methods=['POST', 'GET'])
+def rsa_page():
+    if request.method == 'POST':
+        message = int(request.form['message'])
+        e = int(request.form['e'])
+        p = int(request.form['p'])
+        q = int(request.form['q'])
+
+        # Errors:
+        # 1 - empty value
+        # 2 - numbers are not prime
+        # 3 - e is not relatively prime to (p-1)*(q-1)
+
+        if message and e and p and q is not None:
+            rsa = RSA()
+            # Check for primeness and relative primeness:
+            if not rsa.is_prime(p):  # is_hex(e):
+                return render_template('page_rsa.html', error_no='2', number=p)
+            elif not rsa.is_prime(q):
+                return render_template('page_rsa.html', error_no='2', number=q)
+            else:
+                if not rsa.is_relatively_prime(e, (p - 1) * (q - 1)):
+                    return render_template('page_rsa.html', error_no='3', number=e)
+                else:
+                    action = request.form['action_options']
+                    print(action)
+
+                    return render_template('page_rsa.html', message=message, p=p, q=q, e=e,
+                                           rsa=rsa.do_rsa(message, p, q, e, action))
+        else:
+            return render_template('page_rsa.html', error_no='1')
+    else:
+        return render_template('page_rsa.html')
 
 
 if __name__ == '__main__':

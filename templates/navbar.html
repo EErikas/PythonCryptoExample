@@ -14,7 +14,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="/des/">DES</a>
                         <a class="dropdown-item" href="/aes/">AES</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/rsa/">RSA</a>
                     </div>
                 </li>
 
@@ -26,10 +26,14 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ url_for('static', filename='AES_Example_Description.pdf') }}">Description</a>
                     </li>
+                {% elif link == 'RSA' %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ url_for('static', filename='RSA_Example_Description.pdf') }}">Description</a>
+                    </li>
                 {% endif %}
 
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="https://github.com/EErikas/PythonCryptoExamples">View code</a>
+                    <a class="nav-link js-scroll-trigger" href="https://github.com/EErikas/PythonCryptoExample">View code</a>
                 </li>
 
             </ul>

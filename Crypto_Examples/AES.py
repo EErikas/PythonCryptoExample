@@ -145,7 +145,8 @@ class AES:
                                        'apply_round_key': self.format_output(block)})
 
         for round_no in range(1, len(keys)):
-            round_output = {'round_no': round_no, 'key': None, 'sub_bytes': None, 'shift_rows': None, 'mix_cols': None, 'apply_round_key': None}
+            round_output = {'round_no': round_no, 'key': None, 'sub_bytes': None, 'shift_rows': None, 'mix_cols': None,
+                            'apply_round_key': None}
             round_output['key'] = self.format_output(keys[round_no])
             # Substitutes values with corresponding ones from SBOX:
             block = [[self.get_sbox_value(foo) for foo in bar] for bar in block]
@@ -180,12 +181,19 @@ class AES:
             raise ValueError('Not valid variable type')
 
 
+def get_hex_array(string):
+    return [int(string[i:i + 2], 16) for i in range(0, len(string), 2)]
+
+
 def test_aes():
     key = [0x54, 0x68, 0x61, 0x74,
            0x73, 0x20, 0x6d, 0x79,
            0x20, 0x4b, 0x75, 0x6e,
            0x67, 0x20, 0x46, 0x75]
-
+    key4 = [0x54, 0x68, 0x61, 0x74,
+            0x73, 0x20, 0x6d, 0x79,
+            0x20, 0x4b, 0x75, 0x6e,
+            0x67, 0x20, 0x46, 0x75]
     key1 = [0x23, 0x34, 0x45, 0x67,
             0x89, 0x9a, 0xab, 0xbc,
             0xcd, 0xde, 0xef, 0xf1,
@@ -207,18 +215,19 @@ def test_aes():
              0x8c, 0xd8, 0x95, 0x30]
 
     aes = AES()
-    aes.key = key
+    aes.key = get_hex_array('1101020359aaabbccddeefff10000203')
     aes.message = text2
 
-    od = aes.do_rounds(text, key)
+    od = aes.do_rounds(text, get_hex_array('1101020359aaabbccddeefff10000203'))
     print('Message: {0}\nKey: {1}\nCipher: {2}'.format(od['message'], od['key'], od['cipher']))
     for aes_round in od['round_values']:
-        print('Round #: {0}\nSubstitute bytes:\n{1}\nShift rows: \n{2}\nMix columns:\n{3}\nafter roundkey: \n{4}'''.format(
-            aes_round['round_no'],
-            aes_round['sub_bytes'],
-            aes_round['shift_rows'],
-            aes_round['mix_cols'],
-            aes_round['apply_round_key']))
+        print(
+            'Round #: {0}\nSubstitute bytes:\n{1}\nShift rows: \n{2}\nMix columns:\n{3}\nafter roundkey: \n{4}'''.format(
+                aes_round['round_no'],
+                aes_round['sub_bytes'],
+                aes_round['shift_rows'],
+                aes_round['mix_cols'],
+                aes_round['apply_round_key']))
         print('-------------- End of Round --------------')
 
 

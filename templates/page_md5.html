@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ 'MD5 Hash example' }}
+{% endblock %}
+{% block content %}
+
+    {% set link='MD5' %}
+    {% include 'navbar.html' %}
+
+
+    <body id="page-top">
+    <div class="container">
+        <h1 class="mt-5">MD5 algorithm example</h1>
+        <p class="lead">This is meant to be used as an educational tool not as actual encryption software</p>
+        <form action="/md5/" method="post">
+            <div class="form-group row">
+                <label for="message" class="col-2 col-form-label">Message</label>
+                <div class="col-10">
+                    <input class="form-control" value="{{ message if message else 'ABCD' }}" name="message" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="hash" class="col-2 col-form-label">Hash:</label>
+                <div class="col-10">
+                    <input class="form-control" value="{{ hash if hash }}" name="hash" disabled>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <input class="btn btn-success btn-lg" type='submit'>
+            </div>
+        </form>
+
+
+        {% if error_no=='1' %}
+            <div class="col-lg-12 text-center mt-5">
+                <label class="col-lg-10 col-form-label alert-danger">You must fill in all fields</label>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+

@@ -15,6 +15,7 @@
                         <a class="dropdown-item" href="/des/">DES</a>
                         <a class="dropdown-item" href="/aes/">AES</a>
                         <a class="dropdown-item" href="/rsa/">RSA</a>
+                        <a class="dropdown-item" href="/md5/">MD5</a>
                     </div>
                 </li>
 
@@ -29,6 +30,10 @@
                 {% elif link == 'RSA' %}
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ url_for('static', filename='RSA_Example_Description.pdf') }}">Description</a>
+                    </li>
+                {% elif link == 'MD5' %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ url_for('static', filename='MD5_Example_Description.pdf') }}">Description</a>
                     </li>
                 {% endif %}
 

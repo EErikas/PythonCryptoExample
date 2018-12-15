@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from Crypto_Examples.DES import run_des
 from Crypto_Examples.AES import AES
 from Crypto_Examples.RSA import RSA
+from Crypto_Examples.MD5 import MD5
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -159,6 +160,22 @@ def rsa_page():
             return render_template('page_rsa.html', error_no='1')
     else:
         return render_template('page_rsa.html')
+
+
+@app.route('/md5/', methods=['POST', 'GET'])
+def md5_page():
+    if request.method == 'POST':
+        message = request.form['message']
+
+        # Errors:
+        # 1 - empty value
+
+        if message is not None:
+            return render_template('page_md5.html', message=message, hash=MD5().get_hash(message))
+        else:
+            return render_template('page_md5.html', error_no='1')
+    else:
+        return render_template('page_md5.html')
 
 
 if __name__ == '__main__':

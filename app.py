@@ -166,12 +166,17 @@ def rsa_page():
 def md5_page():
     if request.method == 'POST':
         message = request.form['message']
+        action = request.form['action_options']
 
         # Errors:
         # 1 - empty value
 
         if message is not None:
-            return render_template('page_md5.html', message=message, hash=MD5().get_hash(message))
+            hash = MD5().get_md5_hash(message)
+            if action == 'all_steps':
+                return render_template('page_md5.html', message=message, hash=hash['hash'], show_all=True, operations_data=hash)
+            else:
+                return render_template('page_md5.html', message=message, hash=hash['hash'])
         else:
             return render_template('page_md5.html', error_no='1')
     else:

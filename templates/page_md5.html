@@ -96,22 +96,25 @@
                     <td colspan="2">{{ (operations_data.length_after_padding/64)|int }}</td>
                 </tr>
             </table>
-            {% for foo in range(operations_data.message_blocks|length) %}
+            {% for foo in range(operations_data.message_blocks_hex|length) %}
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                     <tr>
-                        <th colspan="2">Block #{{ foo }} contains:</th>
+                        <th colspan="3">Block #{{ foo }} contains:</th>
                     </tr>
                     <tr>
                         <th>#</th>
-                        <th>Value (in hex)</th>
+                        <th>Value (hex bytes)</th>
+                        <th>Value (int)</th>
                     </tr>
+
                     </thead>
                     <tbody>
-                    {% for bar in range(operations_data.message_blocks[foo]|length) %}
+                    {% for bar in range(operations_data.message_blocks_hex[foo]|length) %}
                         <tr>
                             <td>{{ bar }}</td>
-                            <td>{{ operations_data.message_blocks[foo][bar] }}</td>
+                            <td>{{ operations_data.message_blocks_hex[foo][bar] }}</td>
+                            <td>{{ operations_data.message_blocks_int[foo][bar] }}</td>
                         </tr>
                     {% endfor %}
 

@@ -72,7 +72,8 @@ class MD5:
                   'length_after_padding': len(message),
                   's_table': ['s[{0:2d}] = {1}'.format(i, self.__rotate_amounts[i]) for i in range(len(self.__rotate_amounts))],
                   't_table': ['T[{0:2d}] = {1}'.format(i, self.__constants[i]) for i in range(len(self.__constants))],
-                  'message_blocks': [['{:08x}'.format(int.from_bytes(message[foo + i:foo + i + 4], byteorder='little')) for i in range(0, len(message[foo:foo + 64]), 4)] for foo in range(0, len(message), 64)],
+                  'message_blocks_int': [[int.from_bytes(message[foo + i:foo + i + 4], byteorder='little') for i in range(0, len(message[foo:foo + 64]), 4)] for foo in range(0, len(message), 64)],
+                  'message_blocks_hex': [['{:08x}'.format(int.from_bytes(message[foo + i:foo + i + 4], byteorder='little')) for i in range(0, len(message[foo:foo + 64]), 4)] for foo in range(0, len(message), 64)],
                   'operations': [],
                   'hash': None
                   }

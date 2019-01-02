@@ -13,6 +13,7 @@ class MD5:
 
     # Use binary integer part of the sines of integers (Radians) as constants
     # this is performed by performing logical AND operation with largest 32 bit integer -  0xFFFFFFFF
+
     __constants = [int(abs(math.sin(i + 1)) * 2 ** 32) & 0xFFFFFFFF for i in range(64)]
 
     # Define initial values in little-endian format (bytes go in reverse order)
@@ -60,9 +61,9 @@ class MD5:
         # Convert message to ascii encoded bytes:
         message = bytearray(text.encode('ascii'))
         # Calculate and append message length in bytes:
-        message_length = (8 * len(message)) & 0xFFFFFFFF  # 0xffffffffffffffff
-        message.append(0x80)
+        message_length = (8 * len(message)) & 0xFFFFFFFFFFFFFFFF
         # Add padding
+        message.append(0x80)
         while len(message) % 64 != 56:
             message.append(0)
         message += message_length.to_bytes(8, byteorder='little')

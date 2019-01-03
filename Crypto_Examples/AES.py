@@ -50,7 +50,7 @@ class AES:
         :param i: Round key sequence number
         :return: Round key with applied T function
         """
-        # Perform single left shift:
+
         # Substitute bytes with corresponding bytes from SBOX after performing single left shift:
         w = [self.get_sbox_value(foo) for foo in numpy.roll(w, -1)]
         # Perform XOR operation between 1st value and round constant:
@@ -145,7 +145,11 @@ class AES:
                                        'apply_round_key': self.format_output(block)})
 
         for round_no in range(1, len(keys)):
-            round_output = {'round_no': round_no, 'key': None, 'sub_bytes': None, 'shift_rows': None, 'mix_cols': None,
+            round_output = {'round_no': round_no,
+                            'key': None,
+                            'sub_bytes': None,
+                            'shift_rows': None,
+                            'mix_cols': None,
                             'apply_round_key': None}
             round_output['key'] = self.format_output(keys[round_no])
             # Substitutes values with corresponding ones from SBOX:

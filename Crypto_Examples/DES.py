@@ -186,7 +186,7 @@ class DES:
             final_permutation = self.__permutation(right + left, FINAL_PERMUTATION)
 
             # result gets value of final permutaion if it's empty (the first block is used),
-            # if it's another block, it's final permutation is added to a result:
+            # if there's another block, its final permutation is added to a result:
             result = final_permutation if result is None else result + final_permutation
 
         return result
@@ -202,8 +202,8 @@ class DES:
             column = int(''.join([str(x) for x in block[1:][:-1]]), 2)  # Column consists of middle 4 bits (2nd to 5th)
             val = S_BOX[i][row][column]  # Take the value in the S-Box appropriated for the round (i)
 
-            bin_num = format(val, 'b').zfill(4)  # Convert the value to binary
-            result += [int(x) for x in str(bin_num)]  # And append it to the result list
+            # Convert the value to binary and append it to the result
+            result += [int(x) for x in str('{:04b}'.format(val))]
         return result
 
     def __generate_keys(self):

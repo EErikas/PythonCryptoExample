@@ -171,14 +171,16 @@ def md5_page():
         # Errors:
         # 1 - empty value
 
-        if message is not None:
-            hash = MD5().get_md5_hash(message)
-            if action == 'all_steps':
-                return render_template('page_md5.html', message=message, hash=hash['hash'], show_all=True, operations_data=hash)
-            else:
-                return render_template('page_md5.html', message=message, hash=hash['hash'])
+        # if message is not None:
+        hash = MD5().get_md5_hash(message)
+        if action == 'all_steps':
+            return render_template('page_md5.html', message=message, hash=hash['hash'], show_all=True,
+                                   operations_data=hash)
         else:
-            return render_template('page_md5.html', error_no='1')
+            return render_template('page_md5.html', message=message, hash=hash['hash'])
+
+    # else:
+    #   return render_template('page_md5.html', error_no='1')
     else:
         return render_template('page_md5.html')
 

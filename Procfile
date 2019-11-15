@@ -1,0 +1,1 @@
+web: gunicorn data_mining_lab3.wsgi

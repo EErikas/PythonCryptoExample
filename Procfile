@@ -1,1 +1,1 @@
-web: gunicorn data_mining_lab3.wsgi
+web: gunicorn isks-crypto-demo.wsgi

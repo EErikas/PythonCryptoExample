@@ -1,1 +1,1 @@
-web: gunicorn isks-crypto-demo.wsgi
+web: gunicorn isks-crypto-demo.wsgi:app
